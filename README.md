@@ -84,18 +84,19 @@ docker run -p 5000:5000 document-capture-scraping
 
 ### How It Works
 
-Scraping: Scrapes IB Math IA SL and EE data from Nailib.
-Data Cleaning: Ensures the extracted data is formatted properly.
-MongoDB Storage: Stores the data in MongoDB, preventing duplicates.
-API Access: Exposes a REST API to query and retrieve the data.
-Automation: Sets up Cron to run the scraper at intervals for updated data.
+- **Scraping**: Scrapes IB Math IA SL and EE data from Nailib.
+- **Data Cleaning**: Ensures the extracted data is formatted properly.
+- **MongoDB Storage**: Stores the data in MongoDB, preventing duplicates.
+- **API Access**: Exposes a REST API to query and retrieve the data.
+- **Automation**: Sets up Cron to run the scraper at intervals for updated data.
 
 ## Evaluation Criteria
-Data Accuracy: Correctly extracted, cleaned, and structured data.
-Code Quality: Clean, readable, and well-documented code.
-MongoDB Integration: Proper data storage and querying.
-Error Handling: Proper handling of edge cases and errors.
-Presentation: Clear project setup instructions and well-documented GitHub repository.
+
+- **Data Accuracy**: Correctly extracted, cleaned, and structured data.
+- **Code Quality**: Clean, readable, and well-documented code.
+- **MongoDB Integration**: Proper data storage and querying.
+- **Error Handling**: Proper handling of edge cases and errors.
+- **Presentation**: Clear project setup instructions and well-documented GitHub repository.
 
 ## Contributions
 Feel free to fork this project, raise issues, or create pull requests. Contributions and suggestions are welcome!
