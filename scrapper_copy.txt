@@ -1,0 +1,62 @@
+
+import requests
+from bs4 import BeautifulSoup
+from pymongo import MongoClient
+
+# MongoDB connection
+client = MongoClient("mongodb://localhost:27017/")
+db = client["nailib_data"]
+collection = db["samples"]
+
+# Scraping function
+def scrape_data(url):
+    response = requests.get(url)
+    
+    # Check if the response is valid (status code 200)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.content, "html.parser")
+        
+        # Extract data
+        title = soup.find("h1").text.strip() if soup.find("h1") else "Unknown"
+        subject = "Math AI SL"  # Modify based on extraction logic
+        description = soup.find("p").text.strip() if soup.find("p") else "No Description"
+        
+        # Extract sections (based on your task details)
+        sections = {}
+        section_titles = soup.find_all("h2")  # Assuming section titles are in <h2> tags
+        for title_tag in section_titles:
+            section_title = title_tag.text.strip()  # Extract text content from the <h2> tag
+            section_content = title_tag.find_next("p").text.strip() if title_tag.find_next("p") else "No Content"
+            sections[section_title] = section_content
+        
+        # Example: Extract word count and read time if present
+        word_count = "Not available"
+        read_time = "Not available"
+        
+        # Create the data to be inserted into MongoDB
+        data = {
+            "title": title,
+            "subject": subject,
+            "description": description,
+            "sections": sections,
+            "word_count": word_count,
+            "read_time": read_time,
+            "file_link": "None",  # Modify as per your actual scraping logic
+            "publication_date": "Unknown"  # Modify based on page data
+        }
+        
+        # Upsert to MongoDB
+        collection.update_one({"title": title}, {"$set": data}, upsert=True)
+        print(f"Data inserted/updated for: {title}")
+    else:
+        print(f"Failed to fetch URL: {url}, Status Code: {response.status_code}")
+
+# List of URLs to scrape
+urls = [
+    "https://nailib.com/ia-sample/ib-math-ai-sl/63909fa87396d2b674677e94",
+    # Add more URLs here
+]
+
+# Run the scraper for each URL
+for url in urls:
+    scrape_data(url)
